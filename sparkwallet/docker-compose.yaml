@@ -10,7 +10,7 @@ services:
       - "$GATEKEEPER_DATAPATH/htpasswd:/htpasswd/htpasswd"
     labels:
       - "traefik.docker.network=cyphernodeappsnet"
-      - "traefik.frontend.rule=ReplacePathRegex: ^/sparkwallet(.*) $$1"
+      - "traefik.frontend.rule=Host:cyphernode.yourdomain.com; ReplacePathRegex: ^/sparkwallet(.*) $$1"
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
       - "traefik.frontend.headers.customRequestHeaders=X-Access:FoeDdQw5yl7pPfqdlGy3OEk/txGqyJjSbVtffhzs7kc="
