@@ -25,7 +25,7 @@ timeout_feature() {
 
 do_test() {
   local rc
-  rc=$(curl -k -s -o /dev/null -w "%{http_code}" https://localhost/welcome)
+  rc=$(curl -k -s -o /dev/null -w "%{http_code}" https://127.0.0.1/welcome)
   [ "${rc}" -ne "401" ] && return 400
   return 0
 }
