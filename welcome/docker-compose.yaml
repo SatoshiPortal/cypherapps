@@ -4,7 +4,7 @@ services:
   cyphernode_welcome:
     environment:
       - "TRACING=1"
-    image: cyphernode/app_welcome:v0.2.0-rc.2
+    image: cyphernode/app_welcome:v0.2.0
     volumes:
       - "$GATEKEEPER_DATAPATH/certs/cert.pem:/data/cert.pem"
       - "$GATEKEEPER_DATAPATH/keys.properties:/data/keys.properties"
@@ -15,7 +15,7 @@ services:
     restart: always
     labels:
       - "traefik.docker.network=cyphernodeappsnet"
-      - "traefik.frontend.rule=PathPrefix:/welcome; PathPrefixStrip:/welcome"
+      - "traefik.frontend.rule=PathPrefixStrip:/welcome"
       - "traefik.frontend.passHostHeader=true"
       - "traefik.enable=true"
       - "traefik.port=8080"

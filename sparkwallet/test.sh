@@ -15,7 +15,7 @@ timeout_feature() {
     # If no error or 2 minutes passed, we get out of this loop
     ([ "${returncode}" -eq "0" ] || [ $(date +%s) -gt ${endtime} ]) && break
 
-    printf "\e[1;31mMaybe it's too early, I'll retry every ${interval} seconds for $((${totaltime} / 60)) minutes ($((${endtime} - $(date +%s))) seconds left).\e[1;0m"
+    printf "\e[1;31mMaybe it's too early, I'll retry every ${interval} seconds for $((${totaltime} / 60)) minutes ($((${endtime} - $(date +%s))) seconds left).\e[1;0m\r\n"
 
     sleep ${interval}
   done
@@ -25,7 +25,7 @@ timeout_feature() {
 
 do_test() {
   local rc
-  rc=$(curl -k -s -o /dev/null -w "%{http_code}" https://localhost/sparkwallet)
+  rc=$(curl -k -s -o /dev/null -w "%{http_code}" https://127.0.0.1/sparkwallet/)
   [ "${rc}" -ne "401" ] && return 400
   return 0
 }
