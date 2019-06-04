@@ -5,7 +5,9 @@ path_prefix = "/welcome"
 
 [gatekeeper]
 status_url = "https://gatekeeper/v0/getblockchaininfo"
-installation_info_url = "https://gatekeeper/s/stats/installation.json"
+installation_info_url = "https://gatekeeper/v0/installation_info"
+installation_state_url = "https://gstekeeper/s/stats/installation.json"
+
 config_archive_url = "https://gatekeeper/s/stats/config.7z"
 certs_url = "https://gatekeeper/s/stats/client.7z"
 
