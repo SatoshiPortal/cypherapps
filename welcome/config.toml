@@ -3,14 +3,14 @@ listen = "0.0.0.0:8080"
 index_template = "templates/index.html"
 path_prefix = "/welcome"
 
-[gatekeeper]
-status_url = "https://gatekeeper/v0/getblockchaininfo"
-installation_info_url = "https://gatekeeper/v0/installation_info"
-installation_state_url = "https://gatekeeper/s/stats/installation.json"
+[api]
+status_endpoint = "/v0/getblockchaininfo"
+installation_info_endpoint = "/v0/installation_info"
+installation_state_endpoint = "/s/stats/installation.json"
+config_archive_endpoint = "/s/stats/config.7z"
+certs_endpoint = "/s/stats/client.7z"
 
-config_archive_url = "https://gatekeeper/s/stats/config.7z"
-certs_url = "https://gatekeeper/s/stats/client.7z"
-
+[security]
 key_label = "000"
 key_file = "/data/keys.properties"
 cert_file = "/data/cert.pem"
