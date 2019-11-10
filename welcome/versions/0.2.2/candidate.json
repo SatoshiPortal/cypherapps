@@ -1,0 +1,8 @@
+{
+  "dependencies": [],
+  "files": [
+    "config.toml",
+    "docker-compose.yaml",
+    "test.sh"
+  ]
+}

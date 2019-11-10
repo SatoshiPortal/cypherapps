@@ -1,0 +1,21 @@
+{
+  "dependencies": [
+    {
+      "label": "api",
+      "version": "v0"
+    },
+    {
+      "label": "bitcoin",
+      "version": "^0.18.0"
+    },
+    {
+      "label": "lightning",
+      "version": "0.7.0"
+    }
+  ],
+  "files": [
+    "cookie",
+    "docker-compose.yaml",
+    "test.sh"
+  ]
+}
