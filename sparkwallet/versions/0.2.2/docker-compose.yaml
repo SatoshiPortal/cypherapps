@@ -5,9 +5,8 @@ services:
     command: --no-tls
     image: cyphernode/sparkwallet:v0.2.8
     volumes:
-      - "$LIGHTNING_DATAPATH/:/etc/lightning"
-      - "$APP_SCRIPT_PATH/cookie:/data/spark/cookie"
-      - "$GATEKEEPER_DATAPATH/htpasswd:/htpasswd/htpasswd"
+      - "$CLIGHTNING_RPC_SOCKET:/etc/lightning/lightning-rpc"
+      - "$APP_DATA/cookie:/data/spark/cookie"
     labels:
       - "traefik.docker.network=cyphernodeappsnet"
       - "traefik.frontend.redirect.regex=^(.*)/sparkwallet$$"

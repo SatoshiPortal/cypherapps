@@ -7,10 +7,8 @@ services:
       - "CYPHERNODE_URL=https://gatekeeper:${GATEKEEPER_PORT}"
     image: cyphernode/app_welcome:v0.2.2
     volumes:
-      - "$GATEKEEPER_DATAPATH/certs/cert.pem:/data/cert.pem"
-      - "$GATEKEEPER_DATAPATH/keys.properties:/data/keys.properties"
-      - "$APP_SCRIPT_PATH/config.toml:/data/config.toml"
-      - "$GATEKEEPER_DATAPATH/htpasswd:/htpasswd/htpasswd"
+      - "$GATEKEEPER_CERT_FILE:/data/cert.pem"
+      - "$APP_DATA/config.toml:/data/config.toml"
     networks:
       - cyphernodeappsnet
     restart: always
