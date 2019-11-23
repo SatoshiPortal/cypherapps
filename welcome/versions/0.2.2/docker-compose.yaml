@@ -3,12 +3,14 @@ version: "3"
 services:
   cyphernode_welcome:
     environment:
-      - "TRACING=1"
-      - "CYPHERNODE_URL=https://gatekeeper:${GATEKEEPER_PORT}"
+      - "CYPHERNODE_URL=$GATEKEEPER_URL"
+      - "CYPHERNODE_CERT=/certs/cert.pm"
+      - "APP_DESCRIPTION_FILE=/data/app.json"
+      - "CONFIG_FILE=/data/config.toml"
     image: cyphernode/app_welcome:v0.2.2
     volumes:
-      - "$GATEKEEPER_CERT_FILE:/data/cert.pem"
-      - "$APP_DATA/config.toml:/data/config.toml"
+      - "$GATEKEEPER_CERTS_PATH:/certs"
+      - "$APP_DATA:/data"
     networks:
       - cyphernodeappsnet
     restart: always
