@@ -4,7 +4,7 @@ services:
   cyphernode_welcome:
     environment:
       - "CYPHERNODE_URL=$GATEKEEPER_URL"
-      - "CYPHERNODE_CERT=/certs/cert.pm"
+      - "CYPHERNODE_CERT=/certs/cert.pem"
       - "APP_DESCRIPTION_FILE=/data/app.json"
       - "CONFIG_FILE=/data/config.toml"
     image: cyphernode/app_welcome:v0.2.2
