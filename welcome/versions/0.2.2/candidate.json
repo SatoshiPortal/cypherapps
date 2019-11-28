@@ -5,5 +5,44 @@
     "config.toml",
     "docker-compose.yaml",
     "test.sh"
-  ]
+  ],
+  "authorization": {
+    "roles": [
+      {
+        "name": "user",
+        "description": "regular user",
+        "autoAssign": true
+      },
+      {
+        "name": "admin",
+        "description": "admin",
+        "autoAssign": false
+      }
+    ],
+    "acp": [
+      {
+        "id": "policies:policy:by:role:user",
+        "description": "Allow gets for every resource",
+        "subjects": ["user"],
+        "effect": "allow",
+        "resources": [
+          "/*"
+        ],
+        "actions": ["get"]
+      },
+      {
+        "id": "policies:policy:by:role:admin",
+        "description": "Allow admin access to every resource.",
+        "subjects": ["admin"],
+        "effect": "allow",
+        "resources": [
+          "/*"
+        ],
+        "actions": ["get", "post", "put", "delete"]
+      }
+    ]
+  }
 }
+
+
+
