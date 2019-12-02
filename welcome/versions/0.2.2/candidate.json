@@ -6,6 +6,7 @@
     "docker-compose.yaml",
     "test.sh"
   ],
+  "isExposed":true,
   "port": 8080,
   "authorization": {
     "roles": [

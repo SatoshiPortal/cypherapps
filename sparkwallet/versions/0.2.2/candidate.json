@@ -19,6 +19,7 @@
     "docker-compose.yaml",
     "test.sh"
   ],
+  "isExposed":true,
   "port": 9737,
   "authorization": {
     "roles": [
