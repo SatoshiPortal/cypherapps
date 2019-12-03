@@ -1,0 +1,60 @@
+{
+  "version": "0.2.2",
+  "dependencies": [
+    {
+      "label": "api",
+      "version": "v0"
+    },
+    {
+      "label": "bitcoin",
+      "version": "~0.18.0"
+    },
+    {
+      "label": "lightning",
+      "version": "~0.7.0"
+    }
+  ],
+  "files": [
+    "cookie",
+    "docker-compose.yaml",
+    "test.sh"
+  ],
+  "isExposed":true,
+  "port": 9737,
+  "authorization": {
+    "roles": [
+      {
+        "name": "user",
+        "description": "regular user",
+        "autoAssign": true
+      },
+      {
+        "name": "admin",
+        "description": "admin",
+        "autoAssign": false
+      }
+    ],
+    "acp": [
+      {
+        "id": "policies:policy:by:role:user",
+        "description": "Allow gets for every resource",
+        "subjects": ["user"],
+        "effect": "allow",
+        "resources": [
+          "/*"
+        ],
+        "actions": ["get"]
+      },
+      {
+        "id": "policies:policy:by:role:admin",
+        "description": "Allow admin access to every resource.",
+        "subjects": ["admin"],
+        "effect": "allow",
+        "resources": [
+          "/*"
+        ],
+        "actions": ["get", "post", "put", "delete"]
+      }
+    ]
+  }
+}
