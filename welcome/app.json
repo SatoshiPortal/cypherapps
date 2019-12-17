@@ -3,5 +3,6 @@
   "name": "The Welcome App",
   "url": "some url",
   "email": "skp@skp.rocks",
-  "latest": "0.2.2"
+  "latest": "0.2.2",
+  "defaultMountPoint": "/welcome"
 }
