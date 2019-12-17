@@ -4,5 +4,5 @@
   "url": "some url",
   "email": "skp@skp.rocks",
   "latest": "0.2.2",
-  "defaultMountPoint": "/welcome"
+  "defaultMountPoint": "welcome"
 }
