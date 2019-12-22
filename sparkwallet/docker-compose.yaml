@@ -4,6 +4,8 @@ services:
   cyphernode_sparkwallet:
     command: --no-tls
     image: cyphernode/sparkwallet:v0.2.12
+    environment:
+      - "NETWORK=${NETWORK}"
     volumes:
       - "$LIGHTNING_DATAPATH/:/etc/lightning"
       - "$APP_SCRIPT_PATH/cookie:/data/spark/cookie"
