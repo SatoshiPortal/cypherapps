@@ -2,7 +2,7 @@ version: "3"
 
 services:
   cyphernode_sparkwallet:
-    command: --no-tls
+    command: --no-tls ${TOR_PARAMS}
     image: cyphernode/sparkwallet:v0.2.12
     environment:
       - "NETWORK=${NETWORK}"

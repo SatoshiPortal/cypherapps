@@ -25,10 +25,12 @@ timeout_feature() {
 
 do_test() {
   local rc
-  rc=$(curl -k -s -o /dev/null -w "%{http_code}" https://127.0.0.1/sparkwallet/)
+  rc=$(curl -k -s -o /dev/null -w "%{http_code}" https://127.0.0.1:${TRAEFIK_HTTPS_PORT}/sparkwallet/)
   [ "${rc}" -ne "401" ] && return 400
   return 0
 }
+
+export TRAEFIK_HTTPS_PORT
 
 timeout_feature do_test
 returncode=$?
