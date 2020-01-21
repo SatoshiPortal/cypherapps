@@ -22,6 +22,23 @@ services:
       - "traefik.enable=true"
       - "traefik.port=8080"
       - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+    deploy:
+      labels:
+        - "traefik.docker.network=cyphernodeappsnet"
+        - "traefik.frontend.rule=PathPrefixStrip:/welcome"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.enable=true"
+        - "traefik.port=8080"
+        - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.io.cyphernode == true
+      restart_policy:
+        condition: "any"
+        delay: 1s
+      update_config:
+        parallelism: 1
 networks:
   cyphernodeappsnet:
     external: true

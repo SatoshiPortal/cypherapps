@@ -24,6 +24,26 @@ services:
     networks:
       - cyphernodeappsnet
     restart: always
+    deploy:
+      labels:
+        - "traefik.docker.network=cyphernodeappsnet"
+        - "traefik.frontend.redirect.regex=^(.*)/sparkwallet$$"
+        - "traefik.frontend.redirect.replacement=$$1/sparkwallet/"
+        - "traefik.frontend.rule=PathPrefix:/sparkwallet;ReplacePathRegex: ^/sparkwallet/(.*) /$$1"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+        - "traefik.frontend.headers.customRequestHeaders=X-Access:FoeDdQw5yl7pPfqdlGy3OEk/txGqyJjSbVtffhzs7kc="
+        - "traefik.enable=true"
+        - "traefik.port=9737"
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.io.cyphernode == true
+      restart_policy:
+        condition: "any"
+        delay: 1s
+      update_config:
+        parallelism: 1    
 networks:
   cyphernodeappsnet:
     external: true
