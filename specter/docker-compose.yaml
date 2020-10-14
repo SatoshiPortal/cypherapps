@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  specter:
+    image: specter:latest
+    command: $USER /entrypoint.sh "0.0.0.0"
+    volumes:
+      - "$APP_SCRIPT_PATH/data:/.specter"
+      - "$BITCOIN_DATAPATH/bitcoin-client.conf:/.bitcoin/bitcoin.conf:ro"
+      - "$GATEKEEPER_DATAPATH/htpasswd:/htpasswd/htpasswd"
+    networks:
+      - cyphernodeappsnet
+      - cyphernodenet
+    restart: always
+    labels:
+      - "traefik.docker.network=cyphernodeappsnet"
+      - "traefik.frontend.rule=PathPrefixStrip:/specter"
+      - "traefik.frontend.auth.forward.trustForwardHeader=true"
+      - "traefik.frontend.whiteList.useXForwardedFor=true"
+      - "traefik.enable=true"
+      - "traefik.port=25441"
+      - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+networks:
+  cyphernodeappsnet:
+    external: true
+  cyphernodenet:
+    external: true
