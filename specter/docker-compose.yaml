@@ -20,6 +20,24 @@ services:
       - "traefik.enable=true"
       - "traefik.port=25441"
       - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+    deploy:
+      labels:
+        - "traefik.docker.network=cyphernodeappsnet"
+        - "traefik.frontend.rule=PathPrefixStrip:/specter"
+        - "traefik.frontend.auth.forward.trustForwardHeader=true"
+        - "traefik.frontend.whiteList.useXForwardedFor=true"
+        - "traefik.enable=true"
+        - "traefik.port=25441"
+        - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.io.cyphernode == true
+      restart_policy:
+        condition: "any"
+        delay: 1s
+      update_config:
+        parallelism: 1
 networks:
   cyphernodeappsnet:
     external: true

@@ -27,6 +27,7 @@ services:
     deploy:
       labels:
         - "traefik.docker.network=cyphernodeappsnet"
+        - "traefik.frontend.entryPoints=https"
         - "traefik.frontend.redirect.regex=^(.*)/sparkwallet$$"
         - "traefik.frontend.redirect.replacement=$$1/sparkwallet/"
         - "traefik.frontend.rule=PathPrefix:/sparkwallet;ReplacePathRegex: ^/sparkwallet/(.*) /$$1"

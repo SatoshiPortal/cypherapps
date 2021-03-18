@@ -25,6 +25,7 @@ services:
     deploy:
       labels:
         - "traefik.docker.network=cyphernodeappsnet"
+        - "traefik.frontend.redirect.entryPoint=https"
         - "traefik.frontend.rule=PathPrefixStrip:/welcome"
         - "traefik.frontend.passHostHeader=true"
         - "traefik.enable=true"
