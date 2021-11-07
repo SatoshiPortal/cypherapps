@@ -2,7 +2,7 @@ version: "3"
 
 services:
   specter:
-    image: cyphernode/specter:v1.3.1
+    image: cyphernode/specter:v1.7.1
     command: $USER /entrypoint.sh "0.0.0.0"
     volumes:
       - "$APP_SCRIPT_PATH/data:/.specter"
