@@ -3,11 +3,11 @@ version: "3"
 services:
   cyphernode_sparkwallet:
     command: --no-tls ${TOR_PARAMS}
-    image: cyphernode/sparkwallet:v0.2.17
+    image: cyphernode/sparkwallet:v0.3.0
     environment:
       - "NETWORK=${NETWORK}"
     volumes:
-      - "$LIGHTNING_DATAPATH/:/etc/lightning"
+      - "$LIGHTNING_DATAPATH/${NETWORK}:/etc/lightning"
       - "$APP_SCRIPT_PATH/cookie:/data/spark/cookie"
       - "$GATEKEEPER_DATAPATH/htpasswd:/htpasswd/htpasswd"
     labels:
