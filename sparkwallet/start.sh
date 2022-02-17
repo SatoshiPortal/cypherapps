@@ -9,6 +9,9 @@ export APP_SCRIPT_PATH
 export GATEKEEPER_DATAPATH
 export FEATURE_TOR
 
+if [ "${NETWORK}" = "mainnet" ]; then
+  export NETWORK="bitcoin"
+fi
 if [ "${FEATURE_TOR}" = "true" ]; then
   export TOR_PARAMS=" --proxy socks5h://tor:9050 --rate-provider wasabi "
 fi
