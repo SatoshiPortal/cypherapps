@@ -34,7 +34,6 @@ services:
         constraints:
           - node.labels.io.cyphernode == true
       restart_policy:
-        condition: "any"
         delay: 1s
       update_config:
         parallelism: 1
