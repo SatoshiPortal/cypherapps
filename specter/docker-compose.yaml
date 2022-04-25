@@ -13,22 +13,38 @@ services:
       - cyphernodenet
     restart: always
     labels:
-      - "traefik.docker.network=cyphernodeappsnet"
-      - "traefik.frontend.rule=PathPrefixStrip:/specter"
-      - "traefik.frontend.auth.forward.trustForwardHeader=true"
-      - "traefik.frontend.whiteList.useXForwardedFor=true"
-      - "traefik.enable=true"
-      - "traefik.port=25441"
-      - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+      - traefik.enable=true
+      - traefik.docker.network=cyphernodeappsnet
+      - traefik.http.routers.specter.rule=PathPrefix(`/specter`)
+      - traefik.http.routers.specter.entrypoints=websecure
+      - traefik.http.routers.specter.tls=true
+      - traefik.http.routers.specter.service=specter
+      - traefik.http.routers.specter.middlewares=specter-stripprefix@docker,specter-auth@docker
+      - traefik.http.routers.specter-onion.rule=PathPrefix(`/specter`)
+      - traefik.http.routers.specter-onion.entrypoints=onion
+      - traefik.http.routers.specter-onion.service=specter
+      - traefik.http.routers.specter-onion.middlewares=specter-stripprefix@docker,specter-auth@docker
+      - traefik.http.services.specter.loadbalancer.server.port=25441
+      - traefik.http.middlewares.specter-stripprefix.stripprefix.prefixes=/specter,/specter/
+      - traefik.http.middlewares.specter-stripprefix.stripprefix.forceSlash=true
+      - traefik.http.middlewares.specter-auth.basicauth.usersfile=/htpasswd/htpasswd
     deploy:
       labels:
-        - "traefik.docker.network=cyphernodeappsnet"
-        - "traefik.frontend.rule=PathPrefixStrip:/specter"
-        - "traefik.frontend.auth.forward.trustForwardHeader=true"
-        - "traefik.frontend.whiteList.useXForwardedFor=true"
-        - "traefik.enable=true"
-        - "traefik.port=25441"
-        - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+        - traefik.enable=true
+        - traefik.docker.network=cyphernodeappsnet
+        - traefik.http.routers.specter.rule=PathPrefix(`/specter`)
+        - traefik.http.routers.specter.entrypoints=websecure
+        - traefik.http.routers.specter.tls=true
+        - traefik.http.routers.specter.service=specter
+        - traefik.http.routers.specter.middlewares=specter-stripprefix@docker,specter-auth@docker
+        - traefik.http.routers.specter-onion.rule=PathPrefix(`/specter`)
+        - traefik.http.routers.specter-onion.entrypoints=onion
+        - traefik.http.routers.specter-onion.service=specter
+        - traefik.http.routers.specter-onion.middlewares=specter-stripprefix@docker,specter-auth@docker
+        - traefik.http.services.specter.loadbalancer.server.port=25441
+        - traefik.http.middlewares.specter-stripprefix.stripprefix.prefixes=/specter,/specter/
+        - traefik.http.middlewares.specter-stripprefix.stripprefix.forceSlash=true
+        - traefik.http.middlewares.specter-auth.basicauth.usersfile=/htpasswd/htpasswd
       replicas: 1
       placement:
         constraints:

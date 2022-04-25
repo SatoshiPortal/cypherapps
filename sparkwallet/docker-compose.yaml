@@ -11,39 +11,58 @@ services:
       - "$APP_SCRIPT_PATH/cookie:/data/spark/cookie"
       - "$GATEKEEPER_DATAPATH/htpasswd:/htpasswd/htpasswd"
     labels:
-      - "traefik.docker.network=cyphernodeappsnet"
-      - "traefik.frontend.entryPoints=https"
-      - "traefik.frontend.redirect.regex=^(.*)/sparkwallet$$"
-      - "traefik.frontend.redirect.replacement=$$1/sparkwallet/"
-      - "traefik.frontend.rule=PathPrefix:/sparkwallet;ReplacePathRegex: ^/sparkwallet/(.*) /$$1"
-      - "traefik.frontend.passHostHeader=true"
-      - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
-      - "traefik.frontend.headers.customRequestHeaders=X-Access:FoeDdQw5yl7pPfqdlGy3OEk/txGqyJjSbVtffhzs7kc="
-      - "traefik.enable=true"
-      - "traefik.port=9737"
+      - traefik.enable=true
+      - traefik.docker.network=cyphernodeappsnet
+      - traefik.http.routers.cyphernode_sparkwallet.rule=PathPrefix(`/sparkwallet`)
+      - traefik.http.routers.cyphernode_sparkwallet.entrypoints=websecure
+      - traefik.http.routers.cyphernode_sparkwallet.tls=true
+      - traefik.http.routers.cyphernode_sparkwallet.service=cyphernode_sparkwallet
+      - traefik.http.routers.cyphernode_sparkwallet.middlewares=cyphernode_sparkwallet-redirectregex@docker,cyphernode_sparkwallet-replacepathregex@docker,cyphernode_sparkwallet-auth@docker,cyphernode_sparkwallet-appauth@docker
+      - traefik.http.routers.cyphernode_sparkwallet-onion.rule=PathPrefix(`/sparkwallet`)
+      - traefik.http.routers.cyphernode_sparkwallet-onion.entrypoints=onion
+      - traefik.http.routers.cyphernode_sparkwallet-onion.service=cyphernode_sparkwallet
+      - traefik.http.routers.cyphernode_sparkwallet-onion.middlewares=cyphernode_sparkwallet-redirectregex@docker,cyphernode_sparkwallet-replacepathregex@docker,cyphernode_sparkwallet-auth@docker,cyphernode_sparkwallet-appauth@docker
+      - traefik.http.services.cyphernode_sparkwallet.loadbalancer.server.port=9737
+      - traefik.http.services.cyphernode_sparkwallet.loadbalancer.passHostHeader=true
+      - traefik.http.middlewares.cyphernode_sparkwallet-redirectregex.redirectregex.regex=^(.*)/sparkwallet$$
+      - traefik.http.middlewares.cyphernode_sparkwallet-redirectregex.redirectregex.replacement=$$1/sparkwallet/
+      - traefik.http.middlewares.cyphernode_sparkwallet-replacepathregex.replacepathregex.regex=^/sparkwallet/(.*)
+      - traefik.http.middlewares.cyphernode_sparkwallet-replacepathregex.replacepathregex.replacement=/$$1
+      - traefik.http.middlewares.cyphernode_sparkwallet-appauth.headers.customrequestheaders.X-Access=FoeDdQw5yl7pPfqdlGy3OEk/txGqyJjSbVtffhzs7kc=
+      - traefik.http.middlewares.cyphernode_sparkwallet-auth.basicauth.usersfile=/htpasswd/htpasswd
     networks:
       - cyphernodeappsnet
     restart: always
     deploy:
       labels:
-        - "traefik.docker.network=cyphernodeappsnet"
-        - "traefik.frontend.entryPoints=https"
-        - "traefik.frontend.redirect.regex=^(.*)/sparkwallet$$"
-        - "traefik.frontend.redirect.replacement=$$1/sparkwallet/"
-        - "traefik.frontend.rule=PathPrefix:/sparkwallet;ReplacePathRegex: ^/sparkwallet/(.*) /$$1"
-        - "traefik.frontend.passHostHeader=true"
-        - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
-        - "traefik.frontend.headers.customRequestHeaders=X-Access:FoeDdQw5yl7pPfqdlGy3OEk/txGqyJjSbVtffhzs7kc="
-        - "traefik.enable=true"
-        - "traefik.port=9737"
+        - traefik.enable=true
+        - traefik.docker.network=cyphernodeappsnet
+        - traefik.http.routers.cyphernode_sparkwallet.rule=PathPrefix(`/sparkwallet`)
+        - traefik.http.routers.cyphernode_sparkwallet.entrypoints=websecure
+        - traefik.http.routers.cyphernode_sparkwallet.tls=true
+        - traefik.http.routers.cyphernode_sparkwallet.service=cyphernode_sparkwallet
+        - traefik.http.routers.cyphernode_sparkwallet.middlewares=cyphernode_sparkwallet-redirectregex@docker,cyphernode_sparkwallet-replacepathregex@docker,cyphernode_sparkwallet-auth@docker,cyphernode_sparkwallet-appauth@docker
+        - traefik.http.routers.cyphernode_sparkwallet-onion.rule=PathPrefix(`/sparkwallet`)
+        - traefik.http.routers.cyphernode_sparkwallet-onion.entrypoints=onion
+        - traefik.http.routers.cyphernode_sparkwallet-onion.service=cyphernode_sparkwallet
+        - traefik.http.routers.cyphernode_sparkwallet-onion.middlewares=cyphernode_sparkwallet-redirectregex@docker,cyphernode_sparkwallet-replacepathregex@docker,cyphernode_sparkwallet-auth@docker,cyphernode_sparkwallet-appauth@docker
+        - traefik.http.services.cyphernode_sparkwallet.loadbalancer.server.port=9737
+        - traefik.http.services.cyphernode_sparkwallet.loadbalancer.passHostHeader=true
+        - traefik.http.middlewares.cyphernode_sparkwallet-redirectregex.redirectregex.regex=^(.*)/sparkwallet$$
+        - traefik.http.middlewares.cyphernode_sparkwallet-redirectregex.redirectregex.replacement=$$1/sparkwallet/
+        - traefik.http.middlewares.cyphernode_sparkwallet-replacepathregex.replacepathregex.regex=^/sparkwallet/(.*)
+        - traefik.http.middlewares.cyphernode_sparkwallet-replacepathregex.replacepathregex.replacement=/$$1
+        - traefik.http.middlewares.cyphernode_sparkwallet-appauth.headers.customrequestheaders.X-Access=FoeDdQw5yl7pPfqdlGy3OEk/txGqyJjSbVtffhzs7kc=
+        - traefik.http.middlewares.cyphernode_sparkwallet-auth.basicauth.usersfile=/htpasswd/htpasswd
       replicas: 1
       placement:
         constraints:
           - node.labels.io.cyphernode == true
       restart_policy:
+        condition: "any"
         delay: 1s
       update_config:
-        parallelism: 1    
+        parallelism: 1
 networks:
   cyphernodeappsnet:
     external: true

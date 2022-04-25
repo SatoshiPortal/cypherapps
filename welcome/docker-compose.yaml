@@ -15,27 +15,44 @@ services:
       - cyphernodeappsnet
     restart: always
     labels:
-      - "traefik.docker.network=cyphernodeappsnet"
-      - "traefik.frontend.redirect.entryPoint=https"
-      - "traefik.frontend.rule=PathPrefixStrip:/welcome"
-      - "traefik.frontend.passHostHeader=true"
-      - "traefik.enable=true"
-      - "traefik.port=8080"
-      - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+      - traefik.enable=true
+      - traefik.docker.network=cyphernodeappsnet
+      - traefik.http.routers.cyphernode_welcome.rule=PathPrefix(`/welcome`)
+      - traefik.http.routers.cyphernode_welcome.entrypoints=websecure
+      - traefik.http.routers.cyphernode_welcome.tls=true
+      - traefik.http.routers.cyphernode_welcome.service=cyphernode_welcome
+      - traefik.http.routers.cyphernode_welcome.middlewares=cyphernode_welcome-stripprefix@docker,cyphernode_welcome-auth@docker
+      - traefik.http.routers.cyphernode_welcome-onion.rule=PathPrefix(`/welcome`)
+      - traefik.http.routers.cyphernode_welcome-onion.entrypoints=onion
+      - traefik.http.routers.cyphernode_welcome-onion.service=cyphernode_welcome
+      - traefik.http.routers.cyphernode_welcome-onion.middlewares=cyphernode_welcome-stripprefix@docker,cyphernode_welcome-auth@docker
+      - traefik.http.services.cyphernode_welcome.loadbalancer.server.port=8080
+      - traefik.http.middlewares.cyphernode_welcome-stripprefix.stripprefix.prefixes=/welcome,/welcome/
+      - traefik.http.middlewares.cyphernode_welcome-stripprefix.stripprefix.forceSlash=true
+      - traefik.http.middlewares.cyphernode_welcome-auth.basicauth.usersfile=/htpasswd/htpasswd
     deploy:
       labels:
-        - "traefik.docker.network=cyphernodeappsnet"
-        - "traefik.frontend.redirect.entryPoint=https"
-        - "traefik.frontend.rule=PathPrefixStrip:/welcome"
-        - "traefik.frontend.passHostHeader=true"
-        - "traefik.enable=true"
-        - "traefik.port=8080"
-        - "traefik.frontend.auth.basic.usersFile=/htpasswd/htpasswd"
+        - traefik.enable=true
+        - traefik.docker.network=cyphernodeappsnet
+        - traefik.http.routers.cyphernode_welcome.rule=PathPrefix(`/welcome`)
+        - traefik.http.routers.cyphernode_welcome.entrypoints=websecure
+        - traefik.http.routers.cyphernode_welcome.tls=true
+        - traefik.http.routers.cyphernode_welcome.service=cyphernode_welcome
+        - traefik.http.routers.cyphernode_welcome.middlewares=cyphernode_welcome-stripprefix@docker,cyphernode_welcome-auth@docker
+        - traefik.http.routers.cyphernode_welcome-onion.rule=PathPrefix(`/welcome`)
+        - traefik.http.routers.cyphernode_welcome-onion.entrypoints=onion
+        - traefik.http.routers.cyphernode_welcome-onion.service=cyphernode_welcome
+        - traefik.http.routers.cyphernode_welcome-onion.middlewares=cyphernode_welcome-stripprefix@docker,cyphernode_welcome-auth@docker
+        - traefik.http.services.cyphernode_welcome.loadbalancer.server.port=8080
+        - traefik.http.middlewares.cyphernode_welcome-stripprefix.stripprefix.prefixes=/welcome,/welcome/
+        - traefik.http.middlewares.cyphernode_welcome-stripprefix.stripprefix.forceSlash=true
+        - traefik.http.middlewares.cyphernode_welcome-auth.basicauth.usersfile=/htpasswd/htpasswd
       replicas: 1
       placement:
         constraints:
           - node.labels.io.cyphernode == true
       restart_policy:
+        condition: "any"
         delay: 1s
       update_config:
         parallelism: 1
