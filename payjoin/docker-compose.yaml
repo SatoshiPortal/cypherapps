@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  payjoin:
+    environment:
+      - "RUST_LOG=debug"
+      - "TRACING=1"
+      - "CYPHERNODE_URL=https://gatekeeper:${GATEKEEPER_PORT}"
+    image: dangould/payjoin-client:0.1.28
+    command: 18443 bitcoin p receive 69420 "https://localhost/pj"
+    # // port cookie receive amount endpoint
+    volumes:
+      - "$APP_SCRIPT_PATH/data:/payjoin/data"
+      - "$GATEKEEPER_DATAPATH/certs/cert.pem:/payjoin/cert.pem:ro"
+      - "$LOGS_DATAPATH:/payjoin/logs"
+    networks:
+      - cyphernodeappsnet
+      - payjoinnet
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=cyphernodeappsnet"
+      - "traefik.frontend.rule=PathPrefixStrip:/pj"
+      - "traefik.frontend.passHostHeader=true"
+      - "traefik.port=3000"
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=cyphernodeappsnet"
+        - "traefik.frontend.rule=PathPrefixStrip:/pj"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.port=3000"
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.io.cyphernode == true
+      restart_policy:
+        delay: 1s
+      update_config:
+        parallelism: 1
+    logging:
+      driver: local
+networks:
+  cyphernodeappsnet:
+    external: true
+  payjoinnet:
+    external: true
